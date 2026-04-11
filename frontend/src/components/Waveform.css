@@ -1,0 +1,30 @@
+.waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.waveform-bar {
+  display: block;
+  width: 3px;
+  background: var(--amber);
+  opacity: 0.45;
+  border-radius: 1px 1px 0 0;
+  animation: waveform-pulse 1.4s ease-in-out infinite alternate;
+  animation-delay: var(--bar-delay);
+  height: calc(var(--bar-height) * 20px);
+  transform-origin: bottom;
+}
+
+@keyframes waveform-pulse {
+  0% {
+    transform: scaleY(0.25);
+    opacity: 0.25;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0.55;
+  }
+}
