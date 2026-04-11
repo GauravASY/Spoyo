@@ -1,0 +1,130 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Core palette */
+  --bg:           #0b0907;
+  --surface:      #141210;
+  --elevated:     #1e1b18;
+  --border:       #2a2520;
+  --border-bright:#3d3830;
+
+  /* Text */
+  --text:         #ede8df;
+  --text-muted:   #7a7068;
+  --text-dim:     #3d3830;
+
+  /* Accent — the signature amber */
+  --amber:        #e8c842;
+  --amber-dim:    rgba(232, 200, 66, 0.1);
+  --amber-glow:   rgba(232, 200, 66, 0.18);
+
+  /* Platform */
+  --spotify:      #1db954;
+  --spotify-dim:  rgba(29, 185, 84, 0.1);
+  --spotify-glow: rgba(29, 185, 84, 0.2);
+  --youtube:      #ff4500;
+  --youtube-dim:  rgba(255, 69, 0, 0.1);
+  --youtube-glow: rgba(255, 69, 0, 0.2);
+
+  /* Semantic */
+  --success:      #4ade80;
+  --error:        #f87171;
+  --warning:      #fbbf24;
+
+  /* Type */
+  --font-display: 'Kanit', sans-serif;
+  --font-mono:    'Space Mono', monospace;
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  /* Subtle warm vignette */
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(232,200,66,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(29,185,84,0.02) 0%, transparent 60%);
+}
+
+/* Global scanline texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.012) 3px,
+    rgba(255, 255, 255, 0.012) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+#root {
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ─── Typography helpers ─── */
+.display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─── Global button base ─── */
+button {
+  font-family: var(--font-mono);
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--amber-dim);
+  color: var(--amber);
+}
