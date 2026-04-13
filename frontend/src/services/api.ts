@@ -37,6 +37,14 @@ export const authService = {
     const response = await api.get('/youtube/me');
     return response.data;
   },
+
+  async storeSpotifyTokens(accessToken: string, refreshToken: string, expiresIn: number): Promise<void> {
+    await api.post('/spotify/store-tokens', { accessToken, refreshToken, expiresIn });
+  },
+
+  async storeYouTubeTokens(tokens: unknown): Promise<void> {
+    await api.post('/youtube/store-tokens', { tokens });
+  },
 };
 
 export const playlistService = {

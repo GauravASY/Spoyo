@@ -28,20 +28,40 @@ router.get('/spotify/callback', async (req, res) => {
   try {
     const tokens = await spotifyService.exchangeCodeForToken(code);
     
-    // Store tokens in session
-    if (req.session) {
-      req.session.spotify = {
-        accessToken: tokens.accessToken,
-        refreshToken: tokens.refreshToken,
-        expiresAt: Date.now() + tokens.expiresIn * 1000,
-      };
-    }
+    // Pass tokens to frontend via URL params so they can be stored via the proxy
+    // (storing in session here would create a cookie on the direct backend connection,
+    //  not on the proxied connection that the frontend uses for API calls)
+    const params = new URLSearchParams({
+      platform: 'spotify',
+      access_token: tokens.accessToken,
+      refresh_token: tokens.refreshToken,
+      expires_in: String(tokens.expiresIn),
+    });
 
-    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth-success?platform=spotify`);
+    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth-success?${params.toString()}`);
   } catch (error) {
     console.error('Spotify OAuth error:', error);
     res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}?error=spotify_token_exchange_failed`);
   }
+});
+
+// Store Spotify tokens in session (called by frontend through the proxy)
+router.post('/spotify/store-tokens', (req, res) => {
+  const { accessToken, refreshToken, expiresIn } = req.body;
+  
+  if (!accessToken || !refreshToken) {
+    return res.status(400).json({ error: 'Missing tokens' });
+  }
+
+  if (req.session) {
+    req.session.spotify = {
+      accessToken,
+      refreshToken,
+      expiresAt: Date.now() + (Number(expiresIn) || 3600) * 1000,
+    };
+  }
+
+  res.json({ success: true });
 });
 
 // YouTube Music OAuth routes
@@ -64,19 +84,35 @@ router.get('/youtube/callback', async (req, res) => {
   try {
     const { tokens } = await youtubeMusicService.exchangeCodeForToken(code);
     
-    // Store tokens in session
-    if (req.session) {
-      req.session.youtubeMusic = {
-        tokens,
-        authenticated: true,
-      };
-    }
+    // Pass tokens to frontend via URL params (same pattern as Spotify)
+    const params = new URLSearchParams({
+      platform: 'youtube',
+      yt_tokens: JSON.stringify(tokens),
+    });
 
-    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth-success?platform=youtube`);
+    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth-success?${params.toString()}`);
   } catch (error) {
     console.error('YouTube OAuth error:', error);
     res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}?error=youtube_token_exchange_failed`);
   }
+});
+
+// Store YouTube tokens in session (called by frontend through the proxy)
+router.post('/youtube/store-tokens', (req, res) => {
+  const { tokens } = req.body;
+  
+  if (!tokens) {
+    return res.status(400).json({ error: 'Missing tokens' });
+  }
+
+  if (req.session) {
+    req.session.youtubeMusic = {
+      tokens,
+      authenticated: true,
+    };
+  }
+
+  res.json({ success: true });
 });
 
 // Check authentication status
