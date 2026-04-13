@@ -2,8 +2,6 @@ import { google } from 'googleapis';
 import { YouTubeMusicPlaylist, YouTubeMusicTrack, SpotifyTrack } from '../types';
 
 const youtube = google.youtube('v3');
-console.log("Client ID:", process.env.YOUTUBE_CLIENT_ID);
-console.log("Client Secret:", process.env.YOUTUBE_CLIENT_SECRET);
 
 export class YouTubeMusicService {
   private oauth2Client: any;
