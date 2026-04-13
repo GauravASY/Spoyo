@@ -2,6 +2,8 @@ import { google } from 'googleapis';
 import { YouTubeMusicPlaylist, YouTubeMusicTrack, SpotifyTrack } from '../types';
 
 const youtube = google.youtube('v3');
+console.log("Client ID:", process.env.YOUTUBE_CLIENT_ID);
+console.log("Client Secret:", process.env.YOUTUBE_CLIENT_SECRET);
 
 export class YouTubeMusicService {
   private oauth2Client: any;
@@ -46,7 +48,7 @@ export class YouTubeMusicService {
     });
 
     const playlists = response.data.items || [];
-    
+
     return Promise.all(
       playlists.map(async (playlist: any) => {
         const tracks = await this.getPlaylistTracks(playlist.id);
@@ -80,7 +82,7 @@ export class YouTubeMusicService {
       });
 
       const items = response.data.items || [];
-      
+
       for (const item of items) {
         if (item.contentDetails?.videoId) {
           try {
@@ -127,7 +129,7 @@ export class YouTubeMusicService {
 
   async searchTrack(spotifyTrack: SpotifyTrack): Promise<string | null> {
     const query = `${spotifyTrack.name} ${spotifyTrack.artists.map(a => a.name).join(' ')}`;
-    
+
     try {
       const response: any = await youtube.search.list({
         auth: this.oauth2Client,
@@ -139,12 +141,12 @@ export class YouTubeMusicService {
       });
 
       const items = response.data.items || [];
-      
+
       // Find the best match
       for (const item of items) {
         const title = item.snippet?.title?.toLowerCase() || '';
         const trackName = spotifyTrack.name.toLowerCase();
-        
+
         // Check if the title contains the track name
         if (title.includes(trackName)) {
           return item.id?.videoId || null;
@@ -197,11 +199,11 @@ export class YouTubeMusicService {
     // Parse ISO 8601 duration (e.g., PT4M13S)
     const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
     if (!match) return 0;
-    
+
     const hours = parseInt(match[1] || '0');
     const minutes = parseInt(match[2] || '0');
     const seconds = parseInt(match[3] || '0');
-    
+
     return (hours * 3600 + minutes * 60 + seconds) * 1000;
   }
 }
