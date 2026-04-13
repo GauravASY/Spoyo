@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { authService } from '../services/api';
-import { AuthStatus, UserProfile } from '../types';
+import { authService, playlistService } from '../services/api';
+import { AuthStatus, UserProfile, SpotifyPlaylist } from '../types';
 import './Home.css';
 
 const Home = () => {
@@ -14,6 +14,9 @@ const Home = () => {
   const [error, setError] = useState<string | null>(null);
   const [spotifyError, setSpotifyError] = useState<string | null>(null);
   const [youtubeError, setYoutubeError] = useState<string | null>(null);
+  const [spotifyPlaylists, setSpotifyPlaylists] = useState<SpotifyPlaylist[]>([]);
+  const [playlistsLoading, setPlaylistsLoading] = useState(false);
+  const [openPlaylistId, setOpenPlaylistId] = useState<string | null>(null);
 
   useEffect(() => {
     const urlError = searchParams.get('error');
@@ -46,11 +49,29 @@ const Home = () => {
 
       if (spotify.status === 'fulfilled') setSpotifyProfile(spotify.value);
       if (youtube.status === 'fulfilled') setYoutubeProfile(youtube.value);
+
+      if (status.spotify) fetchSpotifyPlaylists();
     } catch (err) {
       console.error('Error loading auth status:', err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchSpotifyPlaylists = async () => {
+    setPlaylistsLoading(true);
+    try {
+      const playlists = await playlistService.getSpotifyPlaylists();
+      setSpotifyPlaylists(playlists);
+    } catch (err) {
+      console.error('Failed to fetch Spotify playlists:', err);
+    } finally {
+      setPlaylistsLoading(false);
+    }
+  };
+
+  const togglePlaylist = (id: string) => {
+    setOpenPlaylistId(prev => (prev === id ? null : id));
   };
 
   const handleSpotifyAuth = async () => {
@@ -79,6 +100,8 @@ const Home = () => {
       if (platform === 'spotify') {
         setAuthStatus(s => ({ ...s, spotify: false }));
         setSpotifyProfile(null);
+        setSpotifyPlaylists([]);
+        setOpenPlaylistId(null);
       } else {
         setAuthStatus(s => ({ ...s, youtube: false }));
         setYoutubeProfile(null);
@@ -125,17 +148,22 @@ const Home = () => {
                 <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
               </svg>
             </div>
-            <h3>Spotify</h3>
+            <div className="card-title-row">
+              <h3>Spotify</h3>
+              {authStatus.spotify && <span className="connected-tag">connected</span>}
+            </div>
 
             {authStatus.spotify && spotifyProfile ? (
               <div className="profile-info">
                 {spotifyProfile.avatar && (
                   <img src={spotifyProfile.avatar} alt="" className="profile-avatar" />
                 )}
-                <p className="profile-name">{spotifyProfile.displayName}</p>
-                {spotifyProfile.email && (
-                  <p className="profile-email">{spotifyProfile.email}</p>
-                )}
+                <div>
+                  <p className="profile-name">{spotifyProfile.displayName}</p>
+                  {spotifyProfile.email && (
+                    <p className="profile-email">{spotifyProfile.email}</p>
+                  )}
+                </div>
               </div>
             ) : (
               <p className="auth-status">
@@ -196,6 +224,50 @@ const Home = () => {
             )}
           </div>
         </div>
+
+        {authStatus.spotify && (
+          <div className="spotify-playlists">
+            <div className="playlists-header">
+              <span className="playlists-title">Your Spotify Playlists</span>
+              {playlistsLoading && <span className="playlists-loading">fetching...</span>}
+              {!playlistsLoading && spotifyPlaylists.length > 0 && (
+                <span className="playlists-count">{spotifyPlaylists.length} playlists</span>
+              )}
+            </div>
+
+            {!playlistsLoading && spotifyPlaylists.length > 0 && (
+              <div className="playlists-list">
+                {spotifyPlaylists.map(playlist => (
+                  <div key={playlist.id} className={`playlist-item ${openPlaylistId === playlist.id ? 'open' : ''}`}>
+                    <button className="playlist-row" onClick={() => togglePlaylist(playlist.id)}>
+                      {playlist.images?.[0] ? (
+                        <img src={playlist.images[0].url} alt="" className="playlist-thumb" />
+                      ) : (
+                        <div className="playlist-thumb playlist-thumb-empty" />
+                      )}
+                      <div className="playlist-row-info">
+                        <span className="playlist-name">{playlist.name}</span>
+                        <span className="playlist-meta">{playlist.tracks.total} tracks · {playlist.owner.display_name}</span>
+                      </div>
+                      <span className="playlist-chevron">{openPlaylistId === playlist.id ? '▲' : '▼'}</span>
+                    </button>
+                    {openPlaylistId === playlist.id && (
+                      <div className="playlist-details">
+                        {playlist.description && (
+                          <p className="playlist-desc">{playlist.description.replace(/<[^>]*>/g, '')}</p>
+                        )}
+                        <div className="playlist-detail-row">
+                          <span>{playlist.tracks.total} tracks</span>
+                          <span>by {playlist.owner.display_name}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {bothConnected && (
           <div className="start-section">
