@@ -102,9 +102,19 @@ export class SpotifyService {
       );
 
       const items = response.data.items;
-      if (items.length === 0) break;
+      if (!items || items.length === 0) break;
 
-      playlists.push(...items);
+      // Keep the raw items but ensure a minimal structure if needed
+      const formattedItems = items.map((item: any) => ({
+        ...item,
+        tracks: item.tracks ? {
+          ...item.tracks,
+          items: item.tracks.items || [],
+        } : undefined,
+        owner: item.owner || { display_name: 'Unknown', id: '' }
+      }));
+
+      playlists.push(...formattedItems);
       offset += limit;
 
       if (items.length < limit) break;
@@ -128,8 +138,8 @@ export class SpotifyService {
         }
       );
 
-      const items = response.data.items;
-      if (items.length === 0) break;
+      const items = response.data?.items;
+      if (!items || items.length === 0) break;
 
       const validTracks = items
         .filter((item: any) => item.track !== null)

@@ -210,22 +210,50 @@ router.get('/spotify/playlists/:id', async (req, res) => {
       return res.status(401).json({ error: 'Not authenticated with Spotify' });
     }
 
+    const expiresAt = req.session.spotify.expiresAt;
+    if (Date.now() >= expiresAt && req.session.spotify.refreshToken) {
+      const refreshed = await spotifyService.refreshAccessToken(req.session.spotify.refreshToken);
+      req.session.spotify.accessToken = refreshed.accessToken;
+      req.session.spotify.expiresAt = Date.now() + refreshed.expiresIn * 1000;
+    }
+
     const { id } = req.params;
-    const playlist = await spotifyService.getPlaylist(req.session.spotify.accessToken, id);
-    const tracks = await spotifyService.getPlaylistTracks(req.session.spotify.accessToken, id);
+    let playlist;
+    try {
+      playlist = await spotifyService.getPlaylist(req.session.spotify.accessToken, id);
+    } catch (e: any) {
+      console.error('getPlaylist 403 error on id ' + id, e?.response?.data || e.message);
+      const isForbidden = e?.response?.status === 403;
+      return res.status(isForbidden ? 403 : 500).json({ 
+        error: isForbidden ? 'Spotify blocked access to this playlist (API Policy)' : 'Failed getPlaylist', 
+        details: e?.response?.data || e.message 
+      });
+    }
+
+    let tracks;
+    try {
+      tracks = await spotifyService.getPlaylistTracks(req.session.spotify.accessToken, id);
+    } catch (e: any) {
+      console.error('getPlaylistTracks 403 error on id ' + id, e?.response?.data || e.message);
+      const isForbidden = e?.response?.status === 403;
+      return res.status(isForbidden ? 403 : 500).json({ 
+        error: isForbidden ? 'Spotify blocked access to these tracks (API Policy)' : 'Failed getPlaylistTracks', 
+        details: e?.response?.data || e.message 
+      });
+    }
 
     res.json({
       playlist: {
         ...playlist,
         tracks: {
-          ...playlist.tracks,
+          ...(playlist.tracks || {}),
           items: tracks.map(track => ({ track })),
         },
       },
     });
-  } catch (error) {
-    console.error('Error fetching Spotify playlist:', error);
-    res.status(500).json({ error: 'Failed to fetch playlist' });
+  } catch (error: any) {
+    console.error('Error fetching Spotify playlist:', error?.response?.data || error);
+    res.status(500).json({ error: 'Failed to fetch playlist', details: error?.response?.data || error?.message });
   }
 });
 
