@@ -17,6 +17,8 @@ const Home = () => {
   const [spotifyPlaylists, setSpotifyPlaylists] = useState<SpotifyPlaylist[]>([]);
   const [playlistsLoading, setPlaylistsLoading] = useState(false);
   const [openPlaylistId, setOpenPlaylistId] = useState<string | null>(null);
+  const [playlistDetailsLoading, setPlaylistDetailsLoading] = useState<Record<string, boolean>>({});
+  const [playlistDetailsError, setPlaylistDetailsError] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const urlError = searchParams.get('error');
@@ -70,8 +72,31 @@ const Home = () => {
     }
   };
 
-  const togglePlaylist = (id: string) => {
-    setOpenPlaylistId(prev => (prev === id ? null : id));
+  const togglePlaylist = async (id: string) => {
+    if (openPlaylistId === id) {
+      setOpenPlaylistId(null);
+      return;
+    }
+    setOpenPlaylistId(id);
+
+    const playlist = spotifyPlaylists.find(p => p.id === id);
+    if (!playlist?.tracks?.items || playlist.tracks.items.length === 0) {
+      setPlaylistDetailsLoading(prev => ({ ...prev, [id]: true }));
+      setPlaylistDetailsError(prev => ({ ...prev, [id]: '' }));
+      try {
+        const fullPlaylist = await playlistService.getSpotifyPlaylist(id);
+        setSpotifyPlaylists(prev => prev.map(p => p.id === id ? fullPlaylist : p));
+      } catch (err: any) {
+        console.error('Failed to fetch full playlist details:', err);
+        if (err.response?.status === 403) {
+           setPlaylistDetailsError(prev => ({ ...prev, [id]: 'Spotify API Restricted: Third-party apps cannot access private playlists they did not create.' }));
+        } else {
+           setPlaylistDetailsError(prev => ({ ...prev, [id]: 'Failed to load tracks.' }));
+        }
+      } finally {
+        setPlaylistDetailsLoading(prev => ({ ...prev, [id]: false }));
+      }
+    }
   };
 
   const handleSpotifyAuth = async () => {
@@ -247,7 +272,9 @@ const Home = () => {
                       )}
                       <div className="playlist-row-info">
                         <span className="playlist-name">{playlist.name}</span>
-                        <span className="playlist-meta">{playlist.tracks.total} tracks · {playlist.owner.display_name}</span>
+                        <span className="playlist-meta">
+                          {playlist.tracks?.total || playlist.tracks?.items?.length || 0} tracks · {playlist.owner?.display_name ?? 'Unknown'}
+                        </span>
                       </div>
                       <span className="playlist-chevron">{openPlaylistId === playlist.id ? '▲' : '▼'}</span>
                     </button>
@@ -257,9 +284,49 @@ const Home = () => {
                           <p className="playlist-desc">{playlist.description.replace(/<[^>]*>/g, '')}</p>
                         )}
                         <div className="playlist-detail-row">
-                          <span>{playlist.tracks.total} tracks</span>
-                          <span>by {playlist.owner.display_name}</span>
+                          <span>{playlist.tracks?.total || playlist.tracks?.items?.length || 0} tracks</span>
+                          <span>by {playlist.owner?.display_name ?? 'Unknown'}</span>
                         </div>
+
+                        {/* Tracks List Rendering */}
+                        <div className="home-tracks-container">
+                          {playlistDetailsLoading[playlist.id] ? (
+                            <div className="mini-loading">Loading tracks...</div>
+                          ) : playlistDetailsError[playlist.id] ? (
+                            <div className="mini-loading parse-error" style={{ color: 'var(--amber)', fontSize: '0.65rem' }}>
+                              ⚠️ {playlistDetailsError[playlist.id]}
+                            </div>
+                          ) : playlist.tracks?.items && playlist.tracks.items.length > 0 ? (
+                            <ul className="mini-tracks-ul">
+                              {playlist.tracks.items.map((item, index) => item.track && (
+                                <li key={item.track.id + index} className="mini-track-row">
+                                  <span className="mini-track-idx">{index + 1}</span>
+                                  <div className="mini-track-info">
+                                    <span className="mini-track-name">{item.track.name}</span>
+                                    <span className="mini-track-artists">
+                                      {item.track.artists.map(a => a.name).join(', ')}
+                                    </span>
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <div className="mini-loading" style={{ opacity: 0.6 }}>No tracks found</div>
+                          )}
+                        </div>
+                        {bothConnected && (
+                          <div style={{ marginTop: '12px' }}>
+                            <button 
+                              className="btn btn-primary"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate('/transfer', { state: { preSelectedPlaylist: playlist } });
+                              }}
+                            >
+                              Transfer this Playlist →
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

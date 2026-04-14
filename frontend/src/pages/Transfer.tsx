@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { playlistService, transferService, authService } from '../services/api';
 import { SpotifyPlaylist, TransferResult, FailedTrack } from '../types';
 import './Transfer.css';
@@ -13,6 +13,7 @@ const Transfer = () => {
   const [result, setResult] = useState<TransferResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [, setAuthStatus] = useState({ spotify: false, youtube: false });
+  const location = useLocation();
 
   useEffect(() => {
     checkAuthAndLoadPlaylists();
@@ -30,6 +31,12 @@ const Transfer = () => {
 
       const userPlaylists = await playlistService.getSpotifyPlaylists();
       setPlaylists(userPlaylists);
+      
+      const preSelected = location.state?.preSelectedPlaylist;
+      if (preSelected) {
+        await handlePlaylistSelect(preSelected);
+        navigate('.', { replace: true, state: {} }); // Clear state so back button works normally
+      }
     } catch (err: any) {
       setError('Failed to load playlists. Please try again.');
       console.error('Error loading playlists:', err);

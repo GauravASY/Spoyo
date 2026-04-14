@@ -15,11 +15,11 @@ export interface SpotifyPlaylist {
   name: string;
   description: string;
   images: { url: string; height: number; width: number }[];
-  tracks: {
+  tracks?: {
     total: number;
     items: { track: SpotifyTrack }[];
   };
-  owner: {
+  owner?: {
     display_name: string;
     id: string;
   };
