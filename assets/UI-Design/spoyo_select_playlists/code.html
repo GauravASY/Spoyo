@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#004118",
+                        "on-secondary-container": "#5c0000",
+                        "surface-tint": "#53e076",
+                        "on-tertiary-container": "#730a1b",
+                        "on-tertiary-fixed": "#400009",
+                        "secondary": "#ffb4a8",
+                        "surface-variant": "#353534",
+                        "on-primary-fixed-variant": "#005320",
+                        "primary-fixed": "#72fe8f",
+                        "surface-container-low": "#1c1b1b",
+                        "inverse-surface": "#e5e2e1",
+                        "inverse-on-surface": "#313030",
+                        "on-primary-fixed": "#002108",
+                        "on-error": "#690005",
+                        "on-tertiary": "#680114",
+                        "outline": "#869585",
+                        "tertiary-fixed": "#ffdad9",
+                        "on-surface": "#e5e2e1",
+                        "surface": "#131313",
+                        "on-tertiary-fixed-variant": "#881d28",
+                        "surface-container-high": "#2a2a2a",
+                        "on-background": "#e5e2e1",
+                        "secondary-fixed-dim": "#ffb4a8",
+                        "secondary-fixed": "#ffdad4",
+                        "tertiary-fixed-dim": "#ffb3b3",
+                        "on-secondary": "#690100",
+                        "on-secondary-fixed-variant": "#930100",
+                        "inverse-primary": "#006e2d",
+                        "surface-container": "#201f1f",
+                        "surface-bright": "#393939",
+                        "primary": "#53e076",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#353534",
+                        "primary-container": "#1db954",
+                        "on-surface-variant": "#bccbb9",
+                        "tertiary-container": "#ff767b",
+                        "on-primary": "#003914",
+                        "error": "#ffb4ab",
+                        "on-error-container": "#ffdad6",
+                        "background": "#131313",
+                        "secondary-container": "#ff5540",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-fixed": "#410000",
+                        "outline-variant": "#3d4a3d",
+                        "surface-dim": "#131313",
+                        "tertiary": "#ffb3b3",
+                        "primary-fixed-dim": "#53e076"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-primary:hover {
+            box-shadow: 0 0 15px rgba(83, 224, 118, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- SideNavBar (Context: Dashboard/Transfer flow) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#0e0e0e] flex flex-col py-8 z-40 hidden md:flex border-r border-[#3d4a3d]/15 font-['Plus_Jakarta_Sans'] font-medium text-sm">
+<div class="px-8 mb-8">
+<h1 class="text-3xl font-black tracking-tighter text-[#53e076]">Spoyo</h1>
+<p class="text-on-surface-variant text-xs mt-1 uppercase tracking-widest font-bold opacity-60">Playlist Migrator</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-4 text-[#bccbb9] py-3 px-6 hover:bg-[#201f1f] rounded-r-full transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="library_music">library_music</span>
+<span>Sources</span>
+</a>
+<a class="flex items-center gap-4 bg-[#353534] text-[#53e076] rounded-r-full py-3 px-6 border-l-4 border-[#53e076] hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="sync_alt">sync_alt</span>
+<span>Select Playlists</span>
+</a>
+<a class="flex items-center gap-4 text-[#bccbb9] py-3 px-6 hover:bg-[#201f1f] rounded-r-full transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>Recent Jobs</span>
+</a>
+</nav>
+<div class="mt-auto px-6 space-y-1">
+<button class="w-full mb-6 py-3 px-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-md shadow-lg flex items-center justify-center gap-2 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                New Transfer
+            </button>
+<a class="flex items-center gap-4 text-[#bccbb9] py-3 px-6 hover:bg-[#201f1f] rounded-r-full transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span>Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 min-h-screen pb-32">
+<!-- Top Search Bar Container -->
+<header class="sticky top-0 z-30 bg-surface/80 backdrop-blur-xl px-8 py-8 flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-extrabold tracking-tighter font-headline text-on-surface">Choose Playlists</h2>
+<p class="text-on-surface-variant font-body">Select the collections you'd like to migrate to your new library.</p>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="w-full bg-surface-container-high border-none rounded-md py-4 pl-12 pr-4 focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-on-surface-variant transition-all font-body" placeholder="Search for public playlists..." type="text"/>
+</div>
+</header>
+<!-- Playlist Bento Grid -->
+<section class="px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+<!-- Card 1 (Active/Selected) -->
+<div class="relative group cursor-pointer bg-surface-container-highest rounded-lg overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
+<div class="absolute top-4 left-0 w-1 h-12 bg-primary rounded-r-full z-10"></div>
+<div class="aspect-square overflow-hidden relative">
+<img alt="Midnight Jazz" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="atmospheric photography of a dimly lit jazz club stage with a saxophone in spotlight and smoky ambiance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg-az_KSuX4nbwqqYO6YDB5ubm47E181Xne4vDzulXamlwE7WPox_elbzO3UdOqio7pr3yZQ4JjrYX9zg2dWeJHDkNslzQxyCgdvdVW8C6x6zQbh5N73N9GbAWubkmjNQ6c-eA4Wv_6VptdP1f_4t87_fCutn1tXKMt4W8lu4GZXXkQHkeeZpM8gHy7oBwZUVh4sG0XVzmi53vB_ae3ljJG7L6Bs81VQF1D8jKVFaL8gtlny4VcBMmEFKjJXcltBEnp97iOCt8VgM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent opacity-60"></div>
+<div class="absolute top-4 right-4">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-primary text-xl" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold font-headline text-on-surface truncate">Midnight Jazz Sessions</h3>
+<p class="text-on-surface-variant text-sm mt-1">128 Tracks • Public Playlist</p>
+<div class="mt-4 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">High Fidelity</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="relative group cursor-pointer bg-surface-container rounded-lg overflow-hidden transition-all duration-300 hover:bg-surface-container-high">
+<div class="aspect-square overflow-hidden relative">
+<img alt="Summer Vibes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="vibrant tropical beach sunset with palm tree silhouettes and golden orange sky reflecting on water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfIUBiJDD-axO7yUxlZr31ViJWdoaG5dimdes_pwLM_SCsOkv37CTzxjj2GNAdsaCNFHEyvuGPovEUuBS_CDbwvGGGMnqwn1iSZfkVwo3Pk9pNXJf0-2enmH5WyEZpkPL1IFB4nIqcgAzp7O3C4UwF-L7klAyL5-WlL4zMiHjj1m4Ukss_NqQryZixt0YRXPs1uREzAzF0xi8CzUyyJogjM1HndDFKTeNLZKQeTGlnJ3gLQuwFLUv_LkwT9LEjgPCgQycIU5zBm_M"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-8 h-8 border-2 border-primary/50 bg-surface/80 backdrop-blur-sm rounded-full"></div>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold font-headline text-on-surface truncate">Retro Summer 24</h3>
+<p class="text-on-surface-variant text-sm mt-1">54 Tracks • Featured Collection</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="relative group cursor-pointer bg-surface-container rounded-lg overflow-hidden transition-all duration-300 hover:bg-surface-container-high">
+<div class="aspect-square overflow-hidden relative">
+<img alt="Techno Underground" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="abstract neon light trails in purple and green reflecting on a dark glossy surface in a futuristic club setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjpfK3VpGxC69WbiH5ecL9MrCP-1W5z7f2KIb9Y9MO6hX9doBGU_bpnP81HzFM46KEANCvtjx0pJKM8iQ5iRH8tmo14xdQVTpcQDk8lAMBZ7wqwTfY-nWGDmDwVtSgZMUVyehPaVIiyvsPPoe1dlz0HSukudDMMQuIgExTqRL43IQ9micm7IqiHmBgJh-xvtTDfpS1n-8HhscSECjzd18DNS6ZlQAR9HXQM-dGi6xQwm8uSlPJZspSScKK680rI96b9fFyfwnT_EI"/>
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-8 h-8 border-2 border-primary/50 bg-surface/80 backdrop-blur-sm rounded-full"></div>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold font-headline text-on-surface truncate">Berlin Underground</h3>
+<p class="text-on-surface-variant text-sm mt-1">210 Tracks • Club Essentials</p>
+</div>
+</div>
+<!-- Card 4 (Active/Selected) -->
+<div class="relative group cursor-pointer bg-surface-container-highest rounded-lg overflow-hidden transition-all duration-300">
+<div class="absolute top-4 left-0 w-1 h-12 bg-primary rounded-r-full z-10"></div>
+<div class="aspect-square overflow-hidden relative">
+<img alt="Rock Anthems" class="w-full h-full object-cover" data-alt="stadium rock concert crowd with bright stage lights and pyrotechnics during a performance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyFf5CPOZs304XIbLhyg8aKvSU_jY4fLbh8l80YLhCOLi6VNyiPo8hWePb2A8cNKccix0fu_sWS3FZ-K1tAfvvF1cfP3kZw6K9KVt_9xN_k9YkLGGnqC63EqRgJMB5VVjgT277gu68P6hk1GsKY__Y9wa_Y0Ad69_xkL7Vwk-jJxSOiKob0EkLIgK8u0NW6kue5s1SDlgZiiz82nGe5jDdB8nIW8ruUAJYilN2b3tDwVavnAooYFlN3E9prv_StU5uHO5ZMhvGS1I"/>
+<div class="absolute top-4 right-4">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-primary text-xl" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold font-headline text-on-surface truncate">Classic Rock Anthems</h3>
+<p class="text-on-surface-variant text-sm mt-1">89 Tracks • Curated by Spoyo</p>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="relative group cursor-pointer bg-surface-container rounded-lg overflow-hidden transition-all duration-300 hover:bg-surface-container-high">
+<div class="aspect-square overflow-hidden relative">
+<img alt="Acoustic Chill" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="cozy wooden interior with a guitar leaning against a chair near a sunlit window with plants" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv3y8_xxLNNONyDaComqbVed2UxF8mbv5Po8oyw-drGhbC_ZhVy2GNWiuEEZ0N0Hv-25v-wSpeQENy8xsaO4szXry7hvufjnKLQ5jCXiRSpEjGZhtQwslgNnJR8BarbGYQqdkDBjmrc5ZNF8ipF_1D1pvy51025IfLKlaQ9EdeEyJyidbsrXhogsW1Jt0gfC85fTRbibbGwdCrmVw_0VZsxroFNQNXLcAvDEsbKpeb67XM5HFMcohe0oYwqo6a4TYwmszAuvdIO-4"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold font-headline text-on-surface truncate">Sunday Morning Coffee</h3>
+<p class="text-on-surface-variant text-sm mt-1">45 Tracks • Soft Acoustic</p>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="relative group cursor-pointer bg-surface-container rounded-lg overflow-hidden transition-all duration-300 hover:bg-surface-container-high">
+<div class="aspect-square overflow-hidden relative">
+<img alt="EDM Blast" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="vibrant colorful laser light show at an electronic dance music festival with a silhouetted crowd" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-tRSbsfWzfQCOufupYo9oHI53VlXDGUR28VuZ1zsaQCKfgSTkg0wKsSIYwOPmkwaqjA1flCr1OfsYt8OsTXdqn0o8znGxfNilNRGj0E4WbSyz1W0XhMIDxLcLtagsP6IWbkWRv7c2iUTuWlMiT7Z_MWEDdKHzQXSe9ywN3mN7lSaW9oNGFaIOW0tDu9PPJnlxT-AfdOBB9l4EDARBU8AtIIOlIH81b9GfxkPxKgcKUVDiAJtBUV9tCf9tMI27WIypfwVu3mXqah0"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold font-headline text-on-surface truncate">Mainstage Hits</h3>
+<p class="text-on-surface-variant text-sm mt-1">112 Tracks • Workout Energy</p>
+</div>
+</div>
+<!-- Card 7 -->
+<div class="relative group cursor-pointer bg-surface-container rounded-lg overflow-hidden transition-all duration-300 hover:bg-surface-container-high">
+<div class="aspect-square overflow-hidden relative">
+<img alt="Lo-Fi Beats" class="w-full h-full object-cover" data-alt="lo-fi aesthetic drawing of a messy bedroom at night with stars visible through a window and a glowing laptop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZd74NNbIN98uJROrJqOS0Fi7FweAgGgiNS8YOBI8_55qpkevMO3v1ef8EuLGBihL_pMkt8ESCzTa8X2hOKjRuXMWuZn_HzpVQ8kZG7EsN4svVovZu7OeqmtVdbiWJt9mjHPPdIgupj0Zeneyuo2IRVuTk9nxaDUOSJIvf83B0hirkQmwxaJ-3xCMthczbVuInP3HQ9lXV7YYbBpFXMKgiKMYheytoFs71OwTS17Vvke9YxW5eB-0qsFjHd6C8lMGsayV_cWIYuxw"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold font-headline text-on-surface truncate">Study Lo-Fi Lounge</h3>
+<p class="text-on-surface-variant text-sm mt-1">300+ Tracks • Deep Focus</p>
+</div>
+</div>
+<!-- Card 8 (Empty State / Create New) -->
+<div class="relative group cursor-pointer border-2 border-dashed border-outline-variant/30 rounded-lg overflow-hidden flex flex-col items-center justify-center p-8 transition-all hover:bg-primary/5 hover:border-primary/50">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary transition-colors">add_box</span>
+<p class="mt-4 font-headline font-bold text-on-surface text-center">Import via URL</p>
+<p class="text-on-surface-variant text-xs text-center mt-1">Paste a link to import any public playlist</p>
+</div>
+</section>
+</main>
+<!-- FAB: Start Transfer -->
+<div class="fixed bottom-10 right-10 z-50">
+<button class="group flex items-center gap-4 bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-5 rounded-full shadow-[0_20px_50px_rgba(29,185,84,0.4)] hover:shadow-[0_25px_60px_rgba(29,185,84,0.6)] hover:-translate-y-1 transition-all active:scale-95">
+<div class="flex flex-col items-start leading-tight">
+<span class="text-sm font-bold opacity-80 uppercase tracking-widest">Selected 2 items</span>
+<span class="text-lg font-black font-headline">Begin Migration</span>
+</div>
+<div class="flex items-center gap-2 bg-on-primary/10 pl-4 pr-3 py-2 rounded-full border border-on-primary/20">
+<span class="font-black text-xl">2</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">arrow_forward</span>
+</div>
+</button>
+</div>
+<!-- Mobile Navigation Shell (Responsive Pivot) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest/80 backdrop-blur-2xl px-6 py-4 flex justify-between items-center z-50 border-t border-outline-variant/10">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">library_music</span>
+<span class="text-[10px] font-bold">Sources</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sync_alt</span>
+<span class="text-[10px] font-bold">Transfer</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-bold">History</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">help</span>
+<span class="text-[10px] font-bold">Help</span>
+</button>
+</nav>
+</body></html>

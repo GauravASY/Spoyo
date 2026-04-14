@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spoyo | Syncing Your Sound</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#004118",
+                    "on-secondary-container": "#5c0000",
+                    "surface-tint": "#53e076",
+                    "on-tertiary-container": "#730a1b",
+                    "on-tertiary-fixed": "#400009",
+                    "secondary": "#ffb4a8",
+                    "surface-variant": "#353534",
+                    "on-primary-fixed-variant": "#005320",
+                    "primary-fixed": "#72fe8f",
+                    "surface-container-low": "#1c1b1b",
+                    "inverse-surface": "#e5e2e1",
+                    "inverse-on-surface": "#313030",
+                    "on-primary-fixed": "#002108",
+                    "on-error": "#690005",
+                    "on-tertiary": "#680114",
+                    "outline": "#869585",
+                    "tertiary-fixed": "#ffdad9",
+                    "on-surface": "#e5e2e1",
+                    "surface": "#131313",
+                    "on-tertiary-fixed-variant": "#881d28",
+                    "surface-container-high": "#2a2a2a",
+                    "on-background": "#e5e2e1",
+                    "secondary-fixed-dim": "#ffb4a8",
+                    "secondary-fixed": "#ffdad4",
+                    "tertiary-fixed-dim": "#ffb3b3",
+                    "on-secondary": "#690100",
+                    "on-secondary-fixed-variant": "#930100",
+                    "inverse-primary": "#006e2d",
+                    "surface-container": "#201f1f",
+                    "surface-bright": "#393939",
+                    "primary": "#53e076",
+                    "error-container": "#93000a",
+                    "surface-container-highest": "#353534",
+                    "primary-container": "#1db954",
+                    "on-surface-variant": "#bccbb9",
+                    "tertiary-container": "#ff767b",
+                    "on-primary": "#003914",
+                    "error": "#ffb4ab",
+                    "on-error-container": "#ffdad6",
+                    "background": "#131313",
+                    "secondary-container": "#ff5540",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-secondary-fixed": "#410000",
+                    "outline-variant": "#3d4a3d",
+                    "surface-dim": "#131313",
+                    "tertiary": "#ffb3b3",
+                    "primary-fixed-dim": "#53e076"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-primary {
+            box-shadow: 0 0 20px rgba(83, 224, 118, 0.3);
+        }
+        .pulse-ring {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.1); }
+        }
+        .backdrop-blur-custom {
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#131313]/60 backdrop-blur-xl shadow-[0_40px_40px_-10px_rgba(14,14,14,0.4)] flex justify-between items-center px-8 py-4">
+<div class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-[#53e076] to-[#1db954] font-['Plus_Jakarta_Sans']">
+            Spoyo
+        </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#bccbb9] hover:text-[#e5e2e1] transition-colors font-['Plus_Jakarta_Sans'] tracking-tighter font-bold" href="#">Library</a>
+<a class="text-[#53e076] font-bold border-b-2 border-[#53e076] pb-1 font-['Plus_Jakarta_Sans'] tracking-tighter" href="#">Transfer</a>
+<a class="text-[#bccbb9] hover:text-[#e5e2e1] transition-colors font-['Plus_Jakarta_Sans'] tracking-tighter font-bold" href="#">History</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">settings</button>
+</div>
+</nav>
+<!-- Side Navigation (Visible on Desktop) -->
+<aside class="hidden lg:flex flex-col py-8 h-screen w-64 fixed left-0 top-0 bg-[#131313] border-r border-[#3d4a3d]/15 z-40 mt-16">
+<div class="px-6 mb-8">
+<h2 class="text-xl font-black text-[#53e076] font-['Plus_Jakarta_Sans']">Spoyo</h2>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 text-[#bccbb9] py-3 px-6 hover:bg-[#201f1f] rounded-r-full transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">library_music</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-sm">Library</span>
+</a>
+<a class="flex items-center gap-4 bg-[#353534] text-[#53e076] rounded-r-full py-3 px-6 border-l-4 border-[#53e076] duration-200" href="#">
+<span class="material-symbols-outlined">sync_alt</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-sm">Transfer</span>
+</a>
+<a class="flex items-center gap-4 text-[#bccbb9] py-3 px-6 hover:bg-[#201f1f] rounded-r-full transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-sm">History</span>
+</a>
+<a class="flex items-center gap-4 text-[#bccbb9] py-3 px-6 hover:bg-[#201f1f] rounded-r-full transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-sm">Artists</span>
+</a>
+</nav>
+<div class="px-6 space-y-2 mb-12">
+<a class="flex items-center gap-4 text-[#bccbb9] py-3 px-6 hover:bg-[#201f1f] rounded-r-full transition-all" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-sm">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="lg:pl-64 pt-24 pb-12 px-6 min-h-screen">
+<div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Side: Transfer Visualization -->
+<div class="lg:col-span-7 flex flex-col items-center space-y-8">
+<!-- High-Energy Animation Shell -->
+<div class="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center">
+<!-- Layered pulse rings -->
+<div class="absolute inset-0 rounded-full border border-primary/20 pulse-ring"></div>
+<div class="absolute inset-4 rounded-full border border-primary/30 pulse-ring" style="animation-delay: 0.5s"></div>
+<div class="absolute inset-12 rounded-full border border-primary/40 pulse-ring" style="animation-delay: 1s"></div>
+<!-- Inner Core Visual -->
+<div class="relative w-48 h-48 md:w-64 md:h-64 rounded-full bg-surface-container-highest overflow-hidden shadow-2xl flex items-center justify-center border border-primary/10">
+<img alt="Sync Visual" class="absolute inset-0 w-full h-full object-cover opacity-40 blur-sm" data-alt="abstract vibrant sound waves in neon green and deep black with organic flowing shapes and digital artifacts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNkEENWV4NWIq-po2x9BQfkseRq8AyFj5x9y9P6wr7sJjmMdnjuA12nslsGi73T_yoi8_cU07fDn2UHtjJG7FR-TnmPEP5yf_5fn-KD2C6k1owO_nkSqksEijgZLqUo_4TKysLbkCx5xMWgyaCciU1phEbPWPdfdyU6RJ9izyL_DBxOvGxVL0aMLYhShxzdyP71c5uoveyDoq_rinb_K4dEpa7unjBVXUmPj-JpUiUtfmYl1gH6hkmn9VZiw0AWTKBbH0RW7lFQgM"/>
+<div class="relative z-10 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-6xl text-primary glow-primary mb-2" style="font-variation-settings: 'FILL' 1;">sync_alt</span>
+<span class="font-headline font-extrabold text-4xl tracking-tighter text-on-surface">65%</span>
+<span class="font-label text-on-surface-variant text-xs uppercase tracking-widest">Complete</span>
+</div>
+<!-- Animated gradient sweep -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent animate-spin-slow opacity-50"></div>
+</div>
+</div>
+<!-- Progress Control Panel -->
+<div class="w-full bg-surface-container rounded-lg p-8 backdrop-blur-custom border border-outline-variant/10 shadow-2xl">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight text-on-surface">Syncing Library</h3>
+<p class="font-body text-on-surface-variant text-sm">Moving high-fidelity masters to target destination</p>
+</div>
+<div class="text-right">
+<span class="font-headline text-3xl font-bold text-primary">128</span>
+<span class="font-body text-on-surface-variant">/ 210 tracks</span>
+</div>
+</div>
+<!-- Signature Scrubber/Progress Bar -->
+<div class="relative h-3 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full w-[65%] bg-gradient-to-r from-primary to-primary-container shadow-[0_0_15px_rgba(83,224,118,0.5)]"></div>
+</div>
+<div class="mt-8 flex justify-between items-center">
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-label text-on-surface-variant font-medium">UPLINK: 45MB/s</span>
+</div>
+<div class="flex items-center gap-2 border-l border-outline-variant/20 pl-4">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">timer</span>
+<span class="text-xs font-label text-on-surface-variant font-medium">EST: 2m 45s</span>
+</div>
+</div>
+<button class="flex items-center gap-2 px-6 py-2 rounded-full bg-secondary-container/10 border border-secondary/20 text-secondary hover:bg-secondary-container hover:text-on-secondary transition-all group">
+<span class="material-symbols-outlined text-sm">cancel</span>
+<span class="font-headline font-bold text-sm">Emergency Stop</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Side: Activity Log -->
+<div class="lg:col-span-5 w-full">
+<div class="bg-surface-container-low rounded-lg border border-outline-variant/10 overflow-hidden flex flex-col h-[600px]">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<h4 class="font-headline font-bold tracking-tight">Real-time Activity</h4>
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">Live Stream</span>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-4">
+<!-- Activity Items -->
+<div class="flex items-center gap-4 bg-surface-container-high/50 p-4 rounded-md border-l-4 border-primary">
+<img alt="Track Art" class="w-10 h-10 rounded-sm object-cover" data-alt="classic vinyl record spinning on a high-end turntable with warm vintage lighting and wood textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHP28K9wMugmNkum08FHCErq5-sJa1wozOlJnnUC9BbgQHByd_-tVTuLkzmKC95aAHzo-mSOPuwvtLjqUDoq3lm8h51SnhYaiGfqv3F5wNrPQldT3zPLKDZ5gws-uSzpE3JpwPQjPazBm7EouJZ1wowN7bfnf6BJxWJocvI38BjkfCAQPC5j5qnbk2aicnCIGacxJzs6nwPI9mjeguyBRFwMAy_bd_ln-3b4iIV-jNQ0_BWSDe1adKdRtu887qL3XoiXpRyW0HEp0"/>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-body font-bold text-sm text-on-surface truncate">Bohemian Rhapsody</p>
+<span class="text-[10px] font-bold text-primary uppercase">Success</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Queen • 24.5 MB Transferred</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-highest p-4 rounded-md">
+<div class="w-10 h-10 bg-primary/20 rounded-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-primary animate-spin">refresh</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-body font-bold text-sm text-on-surface">Midnight City</p>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase italic">Moving...</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">M83 • High Fidelity Audio</p>
+</div>
+</div>
+<div class="flex items-center gap-4 opacity-60 p-4 grayscale">
+<div class="w-10 h-10 bg-surface-container-highest rounded-sm"></div>
+<div class="flex-1">
+<p class="font-body font-bold text-sm text-on-surface-variant truncate italic">Waiting in Queue...</p>
+<p class="text-[11px] text-on-surface-variant">Pending Sync</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-high/50 p-4 rounded-md border-l-4 border-primary">
+<img alt="Track Art" class="w-10 h-10 rounded-sm object-cover" data-alt="professional dj mixer in a dark club setting with colorful glowing buttons and faders" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqdFIrLfCiPSW-0YAqGg0B9XfFqVMBcRo5rXSh7AI2XG01SlxIju3elisI7DDu_Ub5Q4AlPjxnwkl_4eEdAyA6o8xLzJCWiSD6IXcTi_Exq_obGnbOEZwGFwidtTTcXc28NsCNNwCesIlDEIDdUXGGPgam_oFkiDfuwqOAuzpkOeIC2s0Sc1f38iJ9lFCMO1EyeEhHsoXnko11oDBdyTLSv3s_ofE_VOcLuETzAn-VGrbRhuNy_aDZfkps1rRRGjXkrzhDwfG5MCM"/>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-body font-bold text-sm text-on-surface truncate">Blinding Lights</p>
+<span class="text-[10px] font-bold text-primary uppercase">Success</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">The Weeknd • 18.2 MB</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-high/50 p-4 rounded-md border-l-4 border-primary">
+<div class="w-10 h-10 bg-surface-container-highest rounded-sm"></div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="font-body font-bold text-sm text-on-surface truncate">Hotel California</p>
+<span class="text-[10px] font-bold text-primary uppercase">Success</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Eagles • 32.1 MB</p>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low border-t border-outline-variant/10">
+<button class="w-full py-4 bg-surface-container-highest text-on-surface font-headline font-bold text-sm rounded-lg hover:bg-surface-bright transition-colors border border-outline-variant/20">
+                            Download Sync Report
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Playback Bar (Spoyo Signature) -->
+<footer class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] md:w-[600px] z-50">
+<div class="bg-surface-variant/60 backdrop-blur-custom rounded-full px-8 py-4 shadow-[0_40px_40px_-10px_rgba(0,0,0,0.6)] border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary">sync</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface truncate max-w-[120px]">Spoyo Sync</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">System Engine Active</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-on-surface">skip_previous</button>
+<button class="w-10 h-10 rounded-full bg-on-surface text-surface flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-on-surface">skip_next</button>
+</div>
+<div class="hidden md:flex items-center gap-3">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">volume_up</span>
+<div class="w-20 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary"></div>
+</div>
+</div>
+</div>
+</footer>
+<!-- Mobile Navigation (Bottom) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-[#131313]/90 backdrop-blur-xl flex justify-around py-4 z-40 border-t border-outline-variant/10">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">library_music</span>
+<span class="text-[10px] font-bold">Library</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sync_alt</span>
+<span class="text-[10px] font-bold">Transfer</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-bold">History</span>
+</button>
+</nav>
+</body></html>
