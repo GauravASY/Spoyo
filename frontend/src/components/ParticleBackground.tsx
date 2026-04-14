@@ -16,10 +16,10 @@ interface Particle {
 }
 
 const PALETTE: Record<ColorType, string> = {
-  amber:  '232, 200, 66',
-  white:  '237, 232, 223',
-  green:  '29, 185, 84',
-  orange: '255, 69, 0',
+  amber:  '191, 220, 54',
+  white:  '235, 232, 216',
+  green:  '191, 220, 54',
+  orange: '255, 97, 76',
 };
 
 function pickColor(): ColorType {

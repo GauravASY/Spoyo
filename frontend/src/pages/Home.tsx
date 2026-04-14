@@ -143,7 +143,10 @@ const Home = () => {
   if (loading) {
     return (
       <div className="home">
-        <div className="loading">Loading...</div>
+        <div className="home-loading">
+          <span className="loading-pulse" />
+          <span>Loading your sonic gallery</span>
+        </div>
       </div>
     );
   }
@@ -153,122 +156,173 @@ const Home = () => {
   return (
     <div className="home">
       {error && (
-        <div className="error-banner">
-          {error}
-          <button className="error-dismiss" onClick={() => setError(null)}>✕</button>
+        <div className="error-banner glass-panel">
+          <span className="material-symbols-outlined">error</span>
+          <span>{error}</span>
+          <button className="error-dismiss" onClick={() => setError(null)} aria-label="dismiss">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
       )}
 
-      <div className="auth-section">
-        <h2>Connect Your Accounts</h2>
-        <p className="auth-description">
-          To transfer playlists, you need to connect both your Spotify and YouTube Music accounts.
-        </p>
+      {/* ─── Hero ─── */}
+      <section className="hero">
+        <div className="hero-copy">
+          <div className="hero-badge">
+            <span className="material-symbols-outlined filled">bolt</span>
+            NEW · V3 ENGINE LIVE
+          </div>
+          <h1 className="hero-title">
+            Seamlessly <span className="sonic-gradient-text">move</span> your music.
+          </h1>
+          <p className="hero-sub">
+            The Spoyo bridge migrates playlists, liked songs, and artist libraries
+            between ecosystems in high-fidelity.
+          </p>
 
-        <div className="auth-buttons">
-          {/* Spotify Card */}
-          <div className={`auth-card ${authStatus.spotify ? 'connected' : ''}`}>
-            <div className="auth-icon spotify-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-              </svg>
-            </div>
-            <div className="card-title-row">
-              <h3>Spotify</h3>
-              {authStatus.spotify && <span className="connected-tag">connected</span>}
-            </div>
+          <div className="hero-cta">
+            <button
+              className="btn btn-primary btn-large"
+              onClick={handleStartTransfer}
+              disabled={!bothConnected}
+            >
+              {bothConnected ? 'Start Transfer' : 'Get Started'}
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </button>
+            <p className="hero-hint">
+              <span className="material-symbols-outlined">info</span>
+              {bothConnected
+                ? 'Both accounts connected — ready to migrate.'
+                : 'Connect both accounts to activate migration.'}
+            </p>
+          </div>
+        </div>
 
-            {authStatus.spotify && spotifyProfile ? (
-              <div className="profile-info">
-                {spotifyProfile.avatar && (
-                  <img src={spotifyProfile.avatar} alt="" className="profile-avatar" />
-                )}
-                <div>
-                  <p className="profile-name">{spotifyProfile.displayName}</p>
-                  {spotifyProfile.email && (
-                    <p className="profile-email">{spotifyProfile.email}</p>
-                  )}
-                </div>
+        {/* ─── Connection bento ─── */}
+        <div className="connection-bento">
+          <div className="bento-link" aria-hidden="true" />
+
+          {/* Spotify card */}
+          <article className={`connection-card glass-panel ${authStatus.spotify ? 'connected' : ''}`}>
+            <div className="card-top">
+              <div className="card-icon card-icon-primary">
+                <span className="material-symbols-outlined filled">library_music</span>
               </div>
-            ) : (
-              <p className="auth-status">
-                {authStatus.spotify ? '✓ Connected' : 'Not connected'}
-              </p>
-            )}
+              <span className="card-tag card-tag-primary">Source</span>
+            </div>
+
+            <div className="card-body">
+              <h3 className="card-title">Spotify</h3>
+              {authStatus.spotify && spotifyProfile ? (
+                <div className="profile-info">
+                  {spotifyProfile.avatar && (
+                    <img src={spotifyProfile.avatar} alt="" className="profile-avatar" />
+                  )}
+                  <div>
+                    <p className="profile-name">{spotifyProfile.displayName}</p>
+                    {spotifyProfile.email && <p className="profile-email">{spotifyProfile.email}</p>}
+                  </div>
+                </div>
+              ) : (
+                <p className="card-desc">Connect your Spotify library to begin scanning playlists.</p>
+              )}
+            </div>
 
             {spotifyError && <p className="card-error">{spotifyError}</p>}
 
             {authStatus.spotify ? (
-              <button onClick={() => handleDisconnect('spotify')} className="btn btn-disconnect">
+              <button onClick={() => handleDisconnect('spotify')} className="btn btn-tertiary">
                 Disconnect
               </button>
             ) : (
-              <button onClick={handleSpotifyAuth} className="btn btn-spotify">
-                Connect Spotify
+              <button onClick={handleSpotifyAuth} className="btn btn-primary card-btn">
+                Connect
               </button>
             )}
-          </div>
+          </article>
 
-          <div className="auth-connector">
-            <div className="connector-line"></div>
-            <span className="connector-icon">→</span>
-          </div>
-
-          {/* YouTube Card */}
-          <div className={`auth-card ${authStatus.youtube ? 'connected' : ''}`}>
-            <div className="auth-icon youtube-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-              </svg>
-            </div>
-            <h3>YouTube Music</h3>
-
-            {authStatus.youtube && youtubeProfile ? (
-              <div className="profile-info">
-                {youtubeProfile.avatar && (
-                  <img src={youtubeProfile.avatar} alt="" className="profile-avatar" />
-                )}
-                <p className="profile-name">{youtubeProfile.displayName}</p>
+          {/* YouTube card */}
+          <article className={`connection-card glass-panel ${authStatus.youtube ? 'connected secondary' : 'secondary'}`}>
+            <div className="card-top">
+              <div className="card-icon card-icon-secondary">
+                <span className="material-symbols-outlined filled">play_circle</span>
               </div>
-            ) : (
-              <p className="auth-status">
-                {authStatus.youtube ? '✓ Connected' : 'Not connected'}
-              </p>
-            )}
+              <span className="card-tag card-tag-secondary">Target</span>
+            </div>
+
+            <div className="card-body">
+              <h3 className="card-title">YouTube Music</h3>
+              {authStatus.youtube && youtubeProfile ? (
+                <div className="profile-info">
+                  {youtubeProfile.avatar && (
+                    <img src={youtubeProfile.avatar} alt="" className="profile-avatar" />
+                  )}
+                  <p className="profile-name">{youtubeProfile.displayName}</p>
+                </div>
+              ) : (
+                <p className="card-desc">Link your Google account to sync your sonic history.</p>
+              )}
+            </div>
 
             {youtubeError && <p className="card-error">{youtubeError}</p>}
 
             {authStatus.youtube ? (
-              <button onClick={() => handleDisconnect('youtube')} className="btn btn-disconnect">
+              <button onClick={() => handleDisconnect('youtube')} className="btn btn-tertiary">
                 Disconnect
               </button>
             ) : (
-              <button onClick={handleYouTubeAuth} className="btn btn-youtube">
-                Connect YouTube
+              <button onClick={handleYouTubeAuth} className="btn btn-secondary card-btn">
+                Connect
               </button>
             )}
+          </article>
+
+          {/* Real-time sync banner */}
+          <div className="sync-banner glass-panel">
+            <div className="sync-dots">
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className="sync-meta">
+              <span className="sync-label">Real-time sync</span>
+              <div className="sync-status">
+                <span className="material-symbols-outlined">sync</span>
+                <span>{bothConnected ? 'Ready' : 'Awaiting connection'}</span>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        {authStatus.spotify && (
-          <div className="spotify-playlists">
-            <div className="playlists-header">
-              <span className="playlists-title">Your Spotify Playlists</span>
-              {playlistsLoading && <span className="playlists-loading">fetching...</span>}
-              {!playlistsLoading && spotifyPlaylists.length > 0 && (
-                <span className="playlists-count">{spotifyPlaylists.length} playlists</span>
-              )}
-            </div>
+      {/* ─── Spotify playlists section ─── */}
+      {authStatus.spotify && (
+        <section className="playlists-section">
+          <div className="section-head">
+            <h2 className="section-title">Your Spotify library</h2>
+            {playlistsLoading ? (
+              <span className="section-meta loading">fetching…</span>
+            ) : (
+              <span className="section-meta">
+                {spotifyPlaylists.length} {spotifyPlaylists.length === 1 ? 'playlist' : 'playlists'}
+              </span>
+            )}
+          </div>
 
-            {!playlistsLoading && spotifyPlaylists.length > 0 && (
-              <div className="playlists-list">
-                {spotifyPlaylists.map(playlist => (
-                  <div key={playlist.id} className={`playlist-item ${openPlaylistId === playlist.id ? 'open' : ''}`}>
+          {!playlistsLoading && spotifyPlaylists.length > 0 && (
+            <div className="playlists-list">
+              {spotifyPlaylists.map(playlist => {
+                const isOpen = openPlaylistId === playlist.id;
+                return (
+                  <div key={playlist.id} className={`playlist-item ${isOpen ? 'open' : ''}`}>
                     <button className="playlist-row" onClick={() => togglePlaylist(playlist.id)}>
+                      <span className="playlist-pill" aria-hidden="true" />
                       {playlist.images?.[0] ? (
                         <img src={playlist.images[0].url} alt="" className="playlist-thumb" />
                       ) : (
-                        <div className="playlist-thumb playlist-thumb-empty" />
+                        <div className="playlist-thumb playlist-thumb-empty">
+                          <span className="material-symbols-outlined">music_note</span>
+                        </div>
                       )}
                       <div className="playlist-row-info">
                         <span className="playlist-name">{playlist.name}</span>
@@ -276,25 +330,23 @@ const Home = () => {
                           {playlist.tracks?.total || playlist.tracks?.items?.length || 0} tracks · {playlist.owner?.display_name ?? 'Unknown'}
                         </span>
                       </div>
-                      <span className="playlist-chevron">{openPlaylistId === playlist.id ? '▲' : '▼'}</span>
+                      <span className={`playlist-chevron material-symbols-outlined ${isOpen ? 'open' : ''}`}>
+                        expand_more
+                      </span>
                     </button>
-                    {openPlaylistId === playlist.id && (
+
+                    {isOpen && (
                       <div className="playlist-details">
                         {playlist.description && (
                           <p className="playlist-desc">{playlist.description.replace(/<[^>]*>/g, '')}</p>
                         )}
-                        <div className="playlist-detail-row">
-                          <span>{playlist.tracks?.total || playlist.tracks?.items?.length || 0} tracks</span>
-                          <span>by {playlist.owner?.display_name ?? 'Unknown'}</span>
-                        </div>
-
-                        {/* Tracks List Rendering */}
                         <div className="home-tracks-container">
                           {playlistDetailsLoading[playlist.id] ? (
-                            <div className="mini-loading">Loading tracks...</div>
+                            <div className="mini-loading">Loading tracks…</div>
                           ) : playlistDetailsError[playlist.id] ? (
-                            <div className="mini-loading parse-error" style={{ color: 'var(--amber)', fontSize: '0.65rem' }}>
-                              ⚠️ {playlistDetailsError[playlist.id]}
+                            <div className="mini-loading parse-error">
+                              <span className="material-symbols-outlined">warning</span>
+                              {playlistDetailsError[playlist.id]}
                             </div>
                           ) : playlist.tracks?.items && playlist.tracks.items.length > 0 ? (
                             <ul className="mini-tracks-ul">
@@ -315,60 +367,44 @@ const Home = () => {
                           )}
                         </div>
                         {bothConnected && (
-                          <div style={{ marginTop: '12px' }}>
-                            <button 
-                              className="btn btn-primary"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigate('/transfer', { state: { preSelectedPlaylist: playlist } });
-                              }}
-                            >
-                              Transfer this Playlist →
-                            </button>
-                          </div>
+                          <button
+                            className="btn btn-primary transfer-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate('/transfer', { state: { preSelectedPlaylist: playlist } });
+                            }}
+                          >
+                            Transfer this playlist
+                            <span className="material-symbols-outlined">arrow_forward</span>
+                          </button>
                         )}
                       </div>
                     )}
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {bothConnected && (
-          <div className="start-section">
-            <div className="success-message">
-              ✓ Both accounts connected successfully!
+                );
+              })}
             </div>
-            <button onClick={handleStartTransfer} className="btn btn-primary btn-large">
-              Start Transfer
-            </button>
-          </div>
-        )}
-      </div>
+          )}
+        </section>
+      )}
 
-      <div className="info-section">
-        <h3>How it works</h3>
+      {/* ─── How it works ─── */}
+      <section className="info-section">
+        <h2 className="section-title">How it works</h2>
         <div className="steps">
-          <div className="step">
-            <div className="step-number">1</div>
-            <p>Connect your Spotify account to access your playlists</p>
-          </div>
-          <div className="step">
-            <div className="step-number">2</div>
-            <p>Connect your YouTube Music account where playlists will be transferred</p>
-          </div>
-          <div className="step">
-            <div className="step-number">3</div>
-            <p>Select the playlist you want to transfer</p>
-          </div>
-          <div className="step">
-            <div className="step-number">4</div>
-            <p>Click transfer and we'll match songs to YouTube Music</p>
-          </div>
+          {[
+            'Connect your Spotify account to access your playlists.',
+            'Connect YouTube Music where your playlists will land.',
+            'Select the playlist you want to migrate.',
+            'We match every song to YouTube Music in high-fidelity.',
+          ].map((text, i) => (
+            <div className="step glass-panel" key={i}>
+              <div className="step-number">{String(i + 1).padStart(2, '0')}</div>
+              <p>{text}</p>
+            </div>
+          ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 };

@@ -101,7 +101,7 @@ const Transfer = () => {
       <div className="transfer">
         <div className="loading-container">
           <div className="spinner"></div>
-          <p>Loading...</p>
+          <p>Scanning your sonic gallery…</p>
         </div>
       </div>
     );
@@ -112,14 +112,19 @@ const Transfer = () => {
     return (
       <div className="transfer">
         <div className="result-container">
-          <button onClick={handleBack} className="btn btn-secondary back-btn">
-            ← Back to Playlists
+          <button onClick={handleBack} className="back-btn">
+            <span className="material-symbols-outlined">arrow_back</span>
+            Back to playlists
           </button>
 
           <div className={`result-card ${result.success ? 'success' : 'partial'}`}>
             <div className="result-header">
-              <div className="result-icon">{result.success ? '✓' : '◐'}</div>
-              <h2>{result.success ? 'Transfer Complete!' : 'Transfer Partially Complete'}</h2>
+              <div className="result-icon">
+                <span className="material-symbols-outlined filled">
+                  {result.success ? 'check' : 'pending'}
+                </span>
+              </div>
+              <h2>{result.success ? 'Transfer complete.' : 'Transfer partially complete.'}</h2>
             </div>
 
             <div className="result-stats">
@@ -177,8 +182,9 @@ const Transfer = () => {
     return (
       <div className="transfer">
         <div className="playlist-detail">
-          <button onClick={handleBack} className="btn btn-secondary back-btn">
-            ← Back to Playlists
+          <button onClick={handleBack} className="back-btn">
+            <span className="material-symbols-outlined">arrow_back</span>
+            Back to playlists
           </button>
 
           <div className="playlist-header-detail">
@@ -226,23 +232,27 @@ const Transfer = () => {
 
           {error && (
             <div className="error-message">
-              {error}
+              <span className="material-symbols-outlined">error</span>
+              <span>{error}</span>
             </div>
           )}
 
           <div className="transfer-actions">
-            <button 
-              onClick={handleTransfer} 
+            <button
+              onClick={handleTransfer}
               className="btn btn-primary btn-large"
               disabled={transferring}
             >
               {transferring ? (
                 <>
                   <span className="spinner-small"></span>
-                  Transferring...
+                  Transferring…
                 </>
               ) : (
-                'Transfer to YouTube Music'
+                <>
+                  Transfer to YouTube Music
+                  <span className="material-symbols-outlined">arrow_forward</span>
+                </>
               )}
             </button>
           </div>
@@ -256,15 +266,21 @@ const Transfer = () => {
     <div className="transfer">
       <div className="playlist-selection">
         <div className="selection-header">
-          <h2>Select a Playlist to Transfer</h2>
-          <p>Choose a Spotify playlist you want to transfer to YouTube Music</p>
+          <h2>
+            Select a <span className="accent">playlist</span> to transfer.
+          </h2>
+          <p>Pick the Spotify playlist you want to migrate to YouTube Music in high-fidelity.</p>
         </div>
 
         {playlists.length === 0 ? (
           <div className="no-playlists">
+            <span className="material-symbols-outlined" style={{ fontSize: 48, color: 'var(--on-surface-variant)' }}>
+              library_music
+            </span>
             <p>No playlists found in your Spotify account.</p>
             <button onClick={() => navigate('/')} className="btn btn-primary">
-              Go Back
+              Go back
+              <span className="material-symbols-outlined">arrow_forward</span>
             </button>
           </div>
         ) : (

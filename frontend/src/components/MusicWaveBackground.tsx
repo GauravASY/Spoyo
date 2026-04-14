@@ -70,36 +70,36 @@ export function MusicWaveBackground() {
 
         const h = Math.max(4, maxH * (0.04 + v * 0.96));
 
-        // Main gradient body — subtle violet→cyan→green fade from top to bottom
+        // Main gradient body — coral→cream→lime fade from top to bottom
         const grad = ctx.createLinearGradient(0, baseY - h, 0, baseY);
-        grad.addColorStop(0, 'rgba(189, 147, 249, 0)');
-        grad.addColorStop(0.25, 'rgba(189, 147, 249, 0.06)');
-        grad.addColorStop(0.55, 'rgba(94, 234, 212, 0.14)');
-        grad.addColorStop(0.85, 'rgba(52, 211, 153, 0.26)');
-        grad.addColorStop(1, 'rgba(232, 200, 66, 0.42)');
+        grad.addColorStop(0, 'rgba(255, 97, 76, 0)');
+        grad.addColorStop(0.25, 'rgba(255, 97, 76, 0.08)');
+        grad.addColorStop(0.55, 'rgba(235, 232, 216, 0.12)');
+        grad.addColorStop(0.85, 'rgba(191, 220, 54, 0.28)');
+        grad.addColorStop(1, 'rgba(191, 220, 54, 0.46)');
         ctx.fillStyle = grad;
         ctx.fillRect(x, baseY - h, BAR_WIDTH, h);
 
         // Top cap highlight
-        ctx.fillStyle = `rgba(244, 234, 200, ${0.45 + v * 0.4})`;
+        ctx.fillStyle = `rgba(235, 232, 216, ${0.45 + v * 0.4})`;
         ctx.fillRect(x, baseY - h, BAR_WIDTH, 1.2);
 
         // Reflected glow (mirrored short bar below the baseline for that "stage" feel)
         const refH = h * 0.14;
         const refGrad = ctx.createLinearGradient(0, baseY, 0, baseY + refH);
-        refGrad.addColorStop(0, 'rgba(232, 200, 66, 0.18)');
-        refGrad.addColorStop(1, 'rgba(232, 200, 66, 0)');
+        refGrad.addColorStop(0, 'rgba(191, 220, 54, 0.22)');
+        refGrad.addColorStop(1, 'rgba(191, 220, 54, 0)');
         ctx.fillStyle = refGrad;
         ctx.fillRect(x, baseY, BAR_WIDTH, refH);
       }
 
       // Thin luminous baseline stripe
       const baseGrad = ctx.createLinearGradient(0, 0, W, 0);
-      baseGrad.addColorStop(0, 'rgba(189, 147, 249, 0)');
-      baseGrad.addColorStop(0.25, 'rgba(94, 234, 212, 0.28)');
-      baseGrad.addColorStop(0.5, 'rgba(232, 200, 66, 0.45)');
-      baseGrad.addColorStop(0.75, 'rgba(52, 211, 153, 0.28)');
-      baseGrad.addColorStop(1, 'rgba(189, 147, 249, 0)');
+      baseGrad.addColorStop(0, 'rgba(255, 97, 76, 0)');
+      baseGrad.addColorStop(0.25, 'rgba(255, 97, 76, 0.26)');
+      baseGrad.addColorStop(0.5, 'rgba(235, 232, 216, 0.42)');
+      baseGrad.addColorStop(0.75, 'rgba(191, 220, 54, 0.30)');
+      baseGrad.addColorStop(1, 'rgba(191, 220, 54, 0)');
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, baseY + 1, W, 1);
 

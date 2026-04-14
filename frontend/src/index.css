@@ -5,58 +5,101 @@
 }
 
 :root {
-  /* ─── Core palette — Midnight studio ─── */
-  --bg:           #07070b;
-  --bg-2:         #0b0b12;
-  --surface:      #0f0f17;
-  --elevated:     #15141f;
-  --border:       #23212e;
-  --border-bright:#3a3648;
+  /* ─── Black Pearl — surfaces & atmosphere ─── */
+  --surface:                     #1a2c30;
+  --surface-dim:                 #0f1c1f;
+  --surface-bright:              #2c4249;
+  --surface-container-lowest:    #0f1c1f;
+  --surface-container-low:       #152328;
+  --surface-container:           #1a2c30;
+  --surface-container-high:      #22363c;
+  --surface-container-highest:   #2c4249;
+  --surface-variant:             #2c4249;
+  --inverse-surface:             #f0ead6;
 
-  /* Text */
-  --text:         #f2eee3;
-  --text-muted:   #86819a;
-  --text-dim:     #4a4558;
+  /* ─── On-surface text & tonals ─── */
+  --on-surface:          #f0ead6;
+  --on-surface-variant:  #a8b5b8;
+  --outline:             #5a7278;
+  --outline-variant:     #2c4249;
 
-  /* Signature — warm amber stage light */
-  --amber:        #f4cf4a;
-  --amber-dim:    rgba(244, 207, 74, 0.1);
-  --amber-glow:   rgba(244, 207, 74, 0.28);
+  /* ─── Primary — Burnt Orange EB7E3C, "the energy" ─── */
+  --primary:            #eb7e3c;
+  --primary-container:  #c85f22;
+  --primary-fixed:      #ff9252;
+  --on-primary:         #1a2c30;
+  --on-primary-container:#1a2c30;
+  --primary-glow:       rgba(235, 126, 60, 0.34);
 
-  /* Cool secondary — mint/teal pulse */
-  --mint:         #5eead4;
-  --mint-dim:     rgba(94, 234, 212, 0.1);
-  --mint-glow:    rgba(94, 234, 212, 0.26);
+  /* ─── Secondary — Blue Lagoon 0E6873, cool counterpart ─── */
+  --secondary:           #0e6873;
+  --secondary-container: #0a4d56;
+  --on-secondary:        #f0ead6;
+  --on-secondary-container:#f0ead6;
+  --secondary-glow:      rgba(14, 104, 115, 0.38);
 
-  /* Violet tertiary */
-  --violet:       #bd93f9;
-  --violet-dim:   rgba(189, 147, 249, 0.1);
-  --violet-glow:  rgba(189, 147, 249, 0.24);
+  /* ─── Accent reds — Lust & Copper ─── */
+  --lust:                #e4201b;
+  --copper:              #b6141c;
 
-  /* Platforms */
-  --spotify:      #1ed760;
-  --spotify-dim:  rgba(30, 215, 96, 0.1);
-  --spotify-glow: rgba(30, 215, 96, 0.25);
-  --youtube:      #ff3d3d;
-  --youtube-dim:  rgba(255, 61, 61, 0.1);
-  --youtube-glow: rgba(255, 61, 61, 0.25);
+  /* ─── Semantic states ─── */
+  --success:      #eb7e3c;
+  --warning:      #e4201b;
+  --error:        #e4201b;
+  --error-container:#6a0e0a;
+  --on-error-container:#f0ead6;
 
-  /* Semantic */
-  --success:      #4ade80;
-  --error:        #f87171;
-  --warning:      #fbbf24;
+  /* ─── Legacy aliases kept so older class blocks still resolve ─── */
+  --bg:            var(--surface);
+  --bg-2:          var(--surface-container-lowest);
+  --elevated:      var(--surface-container-high);
+  --border:        rgba(44, 66, 73, 0.35);
+  --border-bright: rgba(44, 66, 73, 0.55);
+  --text:          var(--on-surface);
+  --text-muted:    var(--on-surface-variant);
+  --text-dim:      rgba(168, 181, 184, 0.4);
+  --amber:         var(--primary);
+  --amber-dim:     rgba(235, 126, 60, 0.12);
+  --amber-glow:    var(--primary-glow);
+  --mint:          var(--primary);
+  --mint-dim:      rgba(235, 126, 60, 0.12);
+  --mint-glow:     var(--primary-glow);
+  --violet:        var(--secondary);
+  --violet-dim:    rgba(14, 104, 115, 0.14);
+  --violet-glow:   var(--secondary-glow);
+  --spotify:       var(--primary);
+  --spotify-dim:   rgba(235, 126, 60, 0.12);
+  --spotify-glow:  var(--primary-glow);
+  --youtube:       var(--secondary);
+  --youtube-dim:   rgba(14, 104, 115, 0.14);
+  --youtube-glow:  var(--secondary-glow);
 
-  /* Type */
-  --font-display: 'Kanit', sans-serif;
-  --font-mono:    'Space Mono', monospace;
+  /* ─── Typography ─── */
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'Inter', system-ui, sans-serif;
 
-  /* Spacing */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 40px;
+  /* ─── Corner radii (Sonic Obsidian scale) ─── */
+  --radius-sm:   0.5rem;
+  --radius-md:   1.5rem;
+  --radius-lg:   2rem;
+  --radius-xl:   3rem;
+  --radius-full: 9999px;
+
+  /* ─── Base-8 spacing grid ─── */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  40px;
   --space-2xl: 64px;
+
+  /* ─── Signature gradients ─── */
+  --gradient-primary: linear-gradient(135deg, #bfdc36 0%, #9bb82a 100%);
+  --gradient-secondary: linear-gradient(135deg, #ff614c 0%, #e04a35 100%);
+
+  /* ─── Sonic shadow (ambient, not drop) ─── */
+  --sonic-shadow: 0 40px 40px -10px rgba(14, 16, 24, 0.5);
 }
 
 html {
@@ -67,33 +110,15 @@ html {
 }
 
 body {
-  font-family: var(--font-mono);
-  background: var(--bg);
-  color: var(--text);
+  font-family: var(--font-body);
+  background: var(--surface);
+  color: var(--on-surface);
   min-height: 100vh;
   line-height: 1.6;
   overflow-x: hidden;
   background-image:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(189, 147, 249, 0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 80% 55% at 50% 100%, rgba(94, 234, 212, 0.05) 0%, transparent 70%),
-    radial-gradient(circle at 85% 15%, rgba(244, 207, 74, 0.035) 0%, transparent 45%);
-}
-
-/* Fine-grain noise texture for depth */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(255, 255, 255, 0.012) 3px,
-    rgba(255, 255, 255, 0.012) 4px
-  );
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: overlay;
+    radial-gradient(circle at 20% 30%, rgba(191, 220, 54, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 97, 76, 0.07) 0%, transparent 50%);
 }
 
 #root {
@@ -101,46 +126,79 @@ body::before {
   isolation: isolate;
 }
 
-/* ─── Scrollbar ─── */
+/* ─── Scrollbar — ghost, not visible ─── */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-bright);
-  border-radius: 4px;
+  background: var(--surface-container-high);
+  border-radius: var(--radius-full);
 }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+::-webkit-scrollbar-thumb:hover { background: var(--surface-container-highest); }
 
 /* ─── Typography helpers ─── */
 .display {
   font-family: var(--font-display);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  letter-spacing: -0.04em;
 }
 
 .label {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 0.7rem;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--on-surface-variant);
+}
+
+/* ─── Gradient text utility ─── */
+.sonic-gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ─── Glass panel utility ─── */
+.glass-panel {
+  background: rgba(71, 81, 97, 0.55);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
 }
 
 /* ─── Global button base ─── */
 button {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   cursor: pointer;
   border: none;
-  transition: all 0.2s ease;
+  background: none;
+  color: inherit;
+  transition: all 0.25s cubic-bezier(.2,.7,.2,1);
 }
 
 button:focus-visible {
-  outline: 2px solid var(--amber);
-  outline-offset: 2px;
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 /* ─── Selection ─── */
 ::selection {
-  background: var(--amber-dim);
-  color: var(--amber);
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+/* ─── Material Symbols baseline ─── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
 }
