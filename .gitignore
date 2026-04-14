@@ -25,6 +25,8 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+# Agent files
+.claude 
 
 # Logs
 logs
