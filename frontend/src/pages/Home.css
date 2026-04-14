@@ -3,6 +3,28 @@
   margin: 0 auto;
 }
 
+/* ─── Section eyebrow ─── */
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mint);
+  margin-bottom: var(--space-md);
+}
+
+.section-eyebrow::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--mint);
+  box-shadow: 0 0 6px var(--mint-glow);
+}
+
 /* ─── Error banner ─── */
 .error-banner {
   display: flex;
@@ -39,12 +61,24 @@
 .auth-section > h2 {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(2rem, 6vw, 3.8rem);
+  font-size: clamp(2.4rem, 7vw, 4.6rem);
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 0.95;
-  margin-bottom: var(--space-sm);
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  margin-bottom: var(--space-md);
   color: var(--text);
+  background: linear-gradient(
+    120deg,
+    #f6f2e7 0%,
+    #f6f2e7 35%,
+    var(--amber) 55%,
+    var(--mint) 85%,
+    var(--violet) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 60px rgba(244, 207, 74, 0.08);
 }
 
 .auth-description {
@@ -66,17 +100,37 @@
 
 /* ─── Auth card ─── */
 .auth-card {
-  background: rgba(20, 18, 16, 0.82);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border);
+  background:
+    linear-gradient(160deg, rgba(21, 20, 31, 0.88) 0%, rgba(11, 11, 18, 0.72) 100%);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   padding: var(--space-xl) var(--space-lg);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-sm);
   position: relative;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  min-height: 220px;
+  transition: transform 0.3s cubic-bezier(.2,.7,.2,1), border-color 0.3s ease, box-shadow 0.3s ease;
+  min-height: 240px;
+  overflow: hidden;
+}
+
+.auth-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Subtle top sheen */
+.auth-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  pointer-events: none;
 }
 
 /* Left platform accent bar */
@@ -105,12 +159,13 @@
 
 /* Connected state */
 .auth-card.connected {
-  border-color: var(--amber);
-  background: rgba(30, 27, 24, 0.88);
+  border-color: rgba(244, 207, 74, 0.55);
+  background:
+    linear-gradient(160deg, rgba(30, 26, 14, 0.88) 0%, rgba(14, 12, 20, 0.82) 100%);
   box-shadow:
-    0 0 0 1px var(--amber),
-    0 0 40px var(--amber-glow),
-    inset 0 0 30px rgba(232,200,66,0.03);
+    0 0 0 1px rgba(244, 207, 74, 0.35),
+    0 8px 40px var(--amber-glow),
+    inset 0 0 60px rgba(244, 207, 74, 0.035);
 }
 
 .auth-card.connected::before {
@@ -227,8 +282,10 @@
 /* ─── Spotify Playlists section ─── */
 .spotify-playlists {
   margin-bottom: var(--space-xl);
-  border: 1px solid var(--border);
-  background: rgba(20, 18, 16, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(15, 15, 23, 0.85) 0%, rgba(11, 11, 18, 0.78) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .playlists-header {
@@ -559,29 +616,44 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .step {
-  background: var(--bg);
+  background: linear-gradient(180deg, rgba(15, 15, 23, 0.82) 0%, rgba(7, 7, 11, 0.82) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.step:hover {
+  background: linear-gradient(180deg, rgba(21, 20, 31, 0.9) 0%, rgba(11, 11, 18, 0.9) 100%);
 }
 
 .step-number {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   line-height: 1;
   color: var(--text-dim);
-  transition: color 0.2s ease;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+  background: linear-gradient(180deg, var(--text-dim) 0%, rgba(74, 69, 88, 0.3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .step:hover .step-number {
-  color: var(--amber);
+  background: linear-gradient(180deg, var(--amber) 0%, var(--mint) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .step p {
@@ -601,6 +673,92 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+/* ─── Mini Tracks List (Home Page) ─── */
+.home-tracks-container {
+  margin-top: var(--space-md);
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mini-loading {
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.mini-tracks-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.mini-tracks-ul::-webkit-scrollbar {
+  width: 6px;
+}
+.mini-tracks-ul::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+.mini-tracks-ul::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.mini-track-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mini-track-row:last-child {
+  border-bottom: none;
+}
+
+.mini-track-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mini-track-idx {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.mini-track-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mini-track-name {
+  font-size: 0.75rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mini-track-artists {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ─── Responsive ─── */

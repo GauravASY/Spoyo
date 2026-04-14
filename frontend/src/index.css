@@ -5,30 +5,41 @@
 }
 
 :root {
-  /* Core palette */
-  --bg:           #0b0907;
-  --surface:      #141210;
-  --elevated:     #1e1b18;
-  --border:       #2a2520;
-  --border-bright:#3d3830;
+  /* ─── Core palette — Midnight studio ─── */
+  --bg:           #07070b;
+  --bg-2:         #0b0b12;
+  --surface:      #0f0f17;
+  --elevated:     #15141f;
+  --border:       #23212e;
+  --border-bright:#3a3648;
 
   /* Text */
-  --text:         #ede8df;
-  --text-muted:   #7a7068;
-  --text-dim:     #3d3830;
+  --text:         #f2eee3;
+  --text-muted:   #86819a;
+  --text-dim:     #4a4558;
 
-  /* Accent — the signature amber */
-  --amber:        #e8c842;
-  --amber-dim:    rgba(232, 200, 66, 0.1);
-  --amber-glow:   rgba(232, 200, 66, 0.18);
+  /* Signature — warm amber stage light */
+  --amber:        #f4cf4a;
+  --amber-dim:    rgba(244, 207, 74, 0.1);
+  --amber-glow:   rgba(244, 207, 74, 0.28);
 
-  /* Platform */
-  --spotify:      #1db954;
-  --spotify-dim:  rgba(29, 185, 84, 0.1);
-  --spotify-glow: rgba(29, 185, 84, 0.2);
-  --youtube:      #ff4500;
-  --youtube-dim:  rgba(255, 69, 0, 0.1);
-  --youtube-glow: rgba(255, 69, 0, 0.2);
+  /* Cool secondary — mint/teal pulse */
+  --mint:         #5eead4;
+  --mint-dim:     rgba(94, 234, 212, 0.1);
+  --mint-glow:    rgba(94, 234, 212, 0.26);
+
+  /* Violet tertiary */
+  --violet:       #bd93f9;
+  --violet-dim:   rgba(189, 147, 249, 0.1);
+  --violet-glow:  rgba(189, 147, 249, 0.24);
+
+  /* Platforms */
+  --spotify:      #1ed760;
+  --spotify-dim:  rgba(30, 215, 96, 0.1);
+  --spotify-glow: rgba(30, 215, 96, 0.25);
+  --youtube:      #ff3d3d;
+  --youtube-dim:  rgba(255, 61, 61, 0.1);
+  --youtube-glow: rgba(255, 61, 61, 0.25);
 
   /* Semantic */
   --success:      #4ade80;
@@ -39,7 +50,7 @@
   --font-display: 'Kanit', sans-serif;
   --font-mono:    'Space Mono', monospace;
 
-  /* Spacing scale */
+  /* Spacing */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -61,13 +72,14 @@ body {
   color: var(--text);
   min-height: 100vh;
   line-height: 1.6;
-  /* Subtle warm vignette */
+  overflow-x: hidden;
   background-image:
-    radial-gradient(ellipse at 50% 0%, rgba(232,200,66,0.03) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 100%, rgba(29,185,84,0.02) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(189, 147, 249, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 55% at 50% 100%, rgba(94, 234, 212, 0.05) 0%, transparent 70%),
+    radial-gradient(circle at 85% 15%, rgba(244, 207, 74, 0.035) 0%, transparent 45%);
 }
 
-/* Global scanline texture */
+/* Fine-grain noise texture for depth */
 body::before {
   content: '';
   position: fixed;
@@ -81,6 +93,7 @@ body::before {
   );
   pointer-events: none;
   z-index: 9999;
+  mix-blend-mode: overlay;
 }
 
 #root {
@@ -89,9 +102,12 @@ body::before {
 }
 
 /* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--surface); }
-::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-bright);
+  border-radius: 4px;
+}
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 /* ─── Typography helpers ─── */
